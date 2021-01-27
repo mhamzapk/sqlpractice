@@ -1,0 +1,61 @@
+Difference b/w char and varchar?
+
+SR.NO.	CHAR	                                                                                                                    VARCHAR
+1.	CHAR datatype is used to store character string of fixed length	VARCHAR datatype is used to store character string of variable length
+2.	In CHAR, If the length of string is less than set or fixed length then it is padded with extra memory space.	In VARCHAR, If the length of string is less than set or fixed length then it will store as it is without padded with extra memory spaces.
+3.	CHAR stands for “Character”	VARCHAR stands for “Variable Character”
+4.	Storage size of CHAR datatypes is equal to n bytes i.e. set length	Storage size of VARCHAR datatype is equal to the actual length of the entered string in bytes.
+5.	We should use CHAR datatype when we expect the data values in a column are of same length.	We should use VARCHAR datatype when we expect the data values in a column are of variable length.
+6.	CHAR take 1 byte for each character	VARCHAR take 1 byte for each character and some extra bytes for holding length information
+9.	Better performance than VARCHAR	Performance is not good as compared to CHAR
+
+
+
+Decimals:
+CREATE TABLE dbo.Patients
+( Name varchar(10),
+  Gender varchar(2),
+  Height decimal (3,2),
+  Weight decimal (5,2)
+)
+INSERT INTO PATIENTS VALUES('John','M',6.1,80.4)
+INSERT INTO PATIENTS VALUES('Bred','M',5.8,73.7)
+INSERT INTO PATIENTS VALUES('Leslie','F',5.3,66.9)
+INSERT INTO PATIENTS VALUES('Rebecca','F',5.7,50.2)
+INSERT INTO PATIENTS VALUES('Shermas','M',6.5,190.6)
+Decimal (3, 2) means the value can have 3 digits overall and 2 digits to the right of the decimal point. In the first line of code above, the value 10.9 (considered as 10.90 = 4 digits overall) exceeds the specified range (3, 2) and causes the overflow
+
+
+Working With Foreign Keys
+-- Creating the customers and orders tables
+CREATE TABLE customers(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(100),
+    last_name VARCHAR(100),
+    email VARCHAR(100)
+);
+CREATE TABLE orders(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    order_date DATE,
+    amount DECIMAL(8,2),
+    customer_id INT,
+    FOREIGN KEY(customer_id) REFERENCES customers(id)
+);
+-- Inserting some customers and orders
+INSERT INTO customers (first_name, last_name, email) 
+VALUES ('Boy', 'George', 'george@gmail.com'),
+       ('George', 'Michael', 'gm@gmail.com'),
+       ('David', 'Bowie', 'david@gmail.com'),
+       ('Blue', 'Steele', 'blue@gmail.com'),
+       ('Bette', 'Davis', 'bette@aol.com');
+INSERT INTO orders (order_date, amount, customer_id)
+VALUES ('2016/02/10', 99.99, 1),
+       ('2017/11/11', 35.50, 1),
+       ('2014/12/12', 800.67, 2),
+       ('2015/01/03', 12.50, 2),
+       ('1999/04/11', 450.25, 5);
+       
+-- This INSERT fails because of our fk constraint.  No user with id: 98
+
+INSERT INTO orders (order_date, amount, customer_id)
+VALUES ('2016/06/06', 33.67, 98);
